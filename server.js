@@ -7,12 +7,26 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
+if (!GROQ_API_KEY) {
+    console.warn("\n⚠️  WARNING: GROQ_API_KEY is not defined in the environment variables!");
+    console.warn("Please create a .env file in the root directory of this project and add:");
+    console.warn("GROQ_API_KEY=your_groq_api_key\n");
+}
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 app.post('/api/chat', async (req, res) => {
     try {
+        if (!GROQ_API_KEY) {
+            res.status(500).json({
+                error: {
+                    message: "GROQ_API_KEY is not configured on the backend server. Please create a .env file and define GROQ_API_KEY."
+                }
+            });
+            return;
+        }
         const { model, messages } = req.body;
         
         // Map user model selection to actual Groq models on the secure backend
