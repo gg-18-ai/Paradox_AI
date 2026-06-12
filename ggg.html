@@ -1424,7 +1424,7 @@
             position: absolute;
             inset: 0;
             z-index: 150;
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
             display: none;
             flex-direction: column;
             opacity: 0;
@@ -1439,13 +1439,13 @@
         }
 
         .web-browse-header {
-            height: 52px;
-            padding: 0 20px;
+            height: 56px;
+            padding: 0 24px;
             border-bottom: 0.5px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
         }
 
         .web-browse-title {
@@ -1460,7 +1460,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 12px;
+            font-size: 12.5px;
             color: var(--text-muted);
         }
 
@@ -1482,157 +1482,127 @@
         .web-browse-body {
             flex: 1;
             display: flex;
+            flex-direction: column;
             overflow: hidden;
-            padding: 20px;
-            gap: 20px;
-        }
-
-        .wb-left-panel {
-            width: 380px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            min-width: 320px;
-        }
-
-        .wb-right-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            min-width: 0;
+            padding: 24px;
+            gap: 24px;
         }
 
         .wb-card {
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 18px;
+            padding: 24px;
             box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
         }
 
         .wb-card-title {
-            font-size: 14px;
+            font-size: 14.5px;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        .wb-input-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .wb-input-row {
-            display: flex;
             gap: 8px;
         }
 
-        .wb-input {
-            flex: 1;
+        /* Input Pill Styles */
+        .wb-input-group-pill {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
             background: var(--bg-primary);
             border: 1px solid var(--border-strong);
-            border-radius: var(--radius-md);
-            padding: 10px 14px;
+            border-radius: 28px;
+            padding: 4px 6px 4px 18px;
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .wb-input-group-pill:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 103, 10, 0.12);
+        }
+
+        .wb-input-group-pill input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
             font-family: var(--font);
             font-size: 14px;
             color: var(--text-primary);
-            outline: none;
-            transition: border-color 0.2s;
+            padding: 10px 0;
         }
 
-        .wb-input:focus {
-            border-color: var(--accent);
+        .wb-input-group-pill input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.8;
         }
 
-        .wb-btn {
+        .wb-input-group-pill button {
             background: var(--accent);
             color: white;
             border: none;
-            border-radius: var(--radius-md);
-            padding: 0 16px;
+            border-radius: 20px;
+            padding: 0 24px;
             font-family: var(--font);
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            height: 36px;
         }
 
-        .wb-btn:hover {
+        .wb-input-group-pill button:hover {
             background: var(--accent-hover);
         }
 
-        .wb-btn:disabled {
-            background: var(--border-strong);
-            cursor: not-allowed;
+        .wb-input-group-pill button:active {
+            transform: scale(0.97);
         }
 
         .wb-toggle-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 13.5px;
-            color: var(--text-secondary);
-        }
-
-        .wb-suggestions {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .wb-sug-item {
-            background: var(--bg-primary);
-            border: 0.5px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 10px 12px;
-            cursor: pointer;
+            width: 100%;
+            max-width: 800px;
+            margin: 10px auto 0;
             font-size: 13px;
             color: var(--text-secondary);
-            transition: all 0.2s;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .wb-sug-item:hover {
-            border-color: var(--accent);
-            background: var(--accent-bg);
-            color: var(--accent);
         }
 
         .wb-terminal {
             flex: 1;
-            background: #121214;
+            background: #111113;
             color: #e4e4e7;
             font-family: var(--font-mono);
             font-size: 12.5px;
-            padding: 16px;
-            border-radius: var(--radius-lg);
+            padding: 18px;
+            border-radius: var(--radius-md);
             overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
-            min-height: 200px;
+            gap: 8px;
+            min-height: 150px;
         }
 
         [data-theme="dark"] .wb-terminal {
             background: #08080a;
+            border-color: rgba(255, 255, 255, 0.05);
         }
 
         .terminal-line {
-            line-height: 1.5;
+            line-height: 1.6;
             white-space: pre-wrap;
             word-break: break-all;
         }
@@ -1644,23 +1614,25 @@
         .terminal-line.error { color: #ef4444; font-weight: 600; }
 
         .wb-viewport {
-            height: 340px;
-            background: #1e1e1e;
-            border-radius: var(--radius-lg);
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
             border: 1px solid var(--border);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-sm);
+            min-height: 150px;
         }
 
         .viewport-header {
-            height: 32px;
-            background: #2d2d2d;
+            height: 38px;
+            background: var(--bg-secondary);
+            border-bottom: 0.5px solid var(--border);
             display: flex;
             align-items: center;
-            padding: 0 12px;
-            gap: 6px;
+            justify-content: space-between;
+            padding: 0 16px;
+            flex-shrink: 0;
         }
 
         .vp-dot {
@@ -1674,21 +1646,23 @@
 
         .vp-address {
             flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            color: #d4d4d8;
-            font-size: 11px;
-            padding: 2px 10px;
-            border-radius: 4px;
-            margin-left: 10px;
-            max-width: 400px;
+            background: var(--bg-primary);
+            border: 0.5px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 11.5px;
+            padding: 3px 12px;
+            border-radius: 6px;
+            margin: 0 16px;
+            max-width: 450px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-align: center;
         }
 
         .viewport-body {
             flex: 1;
-            background: #18181b;
+            background: var(--bg-secondary);
             position: relative;
             display: flex;
             align-items: center;
@@ -1705,12 +1679,30 @@
         }
 
         .viewport-placeholder {
-            color: #71717a;
+            color: var(--text-muted);
             font-size: 13px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+        }
+
+        .wb-clear-btn {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .wb-clear-btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--border-strong);
+            color: var(--text-primary);
         }
 
         .wb-trigger-btn {
@@ -1853,53 +1845,34 @@
                 </div>
             </header>
             <div class="web-browse-body">
-                <!-- Left Control Panel -->
-                <div class="wb-left-panel">
-                    <div class="wb-card">
-                        <div class="wb-card-title">🚀 Run Automation</div>
-                        <div class="wb-input-wrap">
-                            <div class="wb-input-row">
-                                <input type="text" class="wb-input" id="wb-command-input" placeholder="e.g. open flipkart or paste form link..." onkeydown="handleWbKey(event)">
-                                <button class="wb-btn" id="wb-submit-btn" onclick="runWebAutomation()">Go</button>
-                            </div>
-                            <div class="wb-toggle-row" style="margin-top:4px">
-                                <span>Headed Mode (Show physical browser)</span>
-                                <button class="toggle on" id="t-wb-headed" onclick="toggleFeature('t-wb-headed')"></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="wb-card">
-                        <div class="wb-card-title">💡 Quick Automated Tasks</div>
-                        <div class="wb-suggestions">
-                            <button class="wb-sug-item" onclick="useWbSuggestion('open flipkart')">
-                                🛍️ Open Flipkart in a New Tab
-                            </button>
-                            <button class="wb-sug-item" onclick="useWbSuggestion('https://docs.google.com/forms/d/e/1FAIpQLSf4597N3-o8N8dM4-c8c7gqJ0000000000000000000000000/viewform')">
-                                📝 Fill Google Form Link (e.g. Test Form)
-                            </button>
-                            <button class="wb-sug-item" onclick="useWbSuggestion('what is antigravity ai')">
-                                🔍 Automate Google Search & View Page
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="wb-card" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
-                        <div class="wb-card-title">🖥️ Web Viewport Status</div>
+                <!-- Top Row: Viewport (Left) and Terminal (Right) -->
+                <div class="wb-top-row" style="display: flex; gap: 24px; flex: 1; min-height: 0; min-width: 0;">
+                    <!-- Web Viewport -->
+                    <div class="wb-card" style="flex: 1; min-width: 0;">
+                        <div class="wb-card-title">🖥️ Web Viewport</div>
                         <div class="wb-viewport">
                             <div class="viewport-header">
-                                <div class="vp-dot"></div>
-                                <div class="vp-dot"></div>
-                                <div class="vp-dot"></div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <div class="vp-dot"></div>
+                                    <div class="vp-dot"></div>
+                                    <div class="vp-dot"></div>
+                                </div>
                                 <div class="vp-address" id="vp-address">No URL loaded</div>
+                                <div style="color: var(--text-secondary); cursor: pointer; display: flex; align-items: center;" onclick="refreshViewport()" title="Refresh Viewport">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                                    </svg>
+                                </div>
                             </div>
                             <div class="viewport-body" id="vp-body">
                                 <div class="viewport-placeholder" id="vp-placeholder">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);">
                                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                        <line x1="9" y1="3" x2="9" y2="21"/>
+                                        <line x1="3" y1="9" x2="21" y2="9"/>
+                                        <line x1="9" y1="21" x2="9" y2="9"/>
                                     </svg>
-                                    <span>Browser screenshot will appear here</span>
+                                    <div style="font-size: 15px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;">Browser screenshot will appear here</div>
+                                    <div style="font-size: 13px; color: var(--text-muted);">Navigate to any website to get started</div>
                                 </div>
                                 <img src="" class="viewport-screenshot" id="vp-screenshot">
                                 <div class="viewport-overlay" id="vp-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10; flex-direction:column; align-items:center; justify-content:center; padding:20px; color:#fff; text-align:center;">
@@ -1915,14 +1888,33 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Right Live Console Panel -->
-                <div class="wb-right-panel">
-                    <div class="wb-card" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
-                        <div class="wb-card-title">📟 Live Execution Terminal</div>
+                    <!-- Live Execution Terminal -->
+                    <div class="wb-card" style="flex: 1; min-width: 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-shrink: 0;">
+                            <div class="wb-card-title" style="margin-bottom: 0;">📟 Live Execution Terminal</div>
+                            <button class="wb-clear-btn" onclick="clearWbTerminal()">Clear</button>
+                        </div>
                         <div class="wb-terminal" id="wb-terminal">
                             <div class="terminal-line system">[System] Ready for automation commands.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Run Automation -->
+                <div class="wb-bottom-row" style="width: 100%; flex-shrink: 0;">
+                    <div class="wb-card" style="align-items: center; justify-content: center; text-align: center; padding: 16px 24px;">
+                        <div class="wb-card-title" style="justify-content: center; font-size: 16px; margin-bottom: 4px;">🚀 Run Automation</div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Describe the task you want the browser to automate.</div>
+                        
+                        <div class="wb-input-group-pill">
+                            <input type="text" id="wb-command-input" placeholder="e.g., open flipkart or paste form link here..." onkeydown="handleWbKey(event)">
+                            <button id="wb-submit-btn" onclick="runWebAutomation()">Go</button>
+                        </div>
+                        
+                        <div class="wb-toggle-row">
+                            <span>Headed Mode (Show physical browser)</span>
+                            <button class="toggle on" id="t-wb-headed" onclick="toggleFeature('t-wb-headed')"></button>
                         </div>
                     </div>
                 </div>
@@ -3251,6 +3243,29 @@
         }
 
         let currentWbSource = null;
+        let currentWbAbortController = null;
+
+        function stopWebAutomation() {
+            if (currentWbAbortController) {
+                logTerminal('warning', '[System] Terminating automation...');
+                currentWbAbortController.abort();
+                currentWbAbortController = null;
+            }
+            resetWbInputs();
+        }
+
+        function resetWbInputs() {
+            const input = document.getElementById('wb-command-input');
+            const submitBtn = document.getElementById('wb-submit-btn');
+            if (input) input.disabled = false;
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Go';
+                submitBtn.style.background = '#d4670a'; // orange
+                submitBtn.onclick = runWebAutomation;
+            }
+        }
+
         function runWebAutomation() {
             const input = document.getElementById('wb-command-input');
             const cmd = input.value.trim();
@@ -3304,9 +3319,12 @@
             terminal.innerHTML = '';
             logTerminal('user', `> Running automation for: ${cmd}`);
             
-            // Disable input and btn
+            // Set button and input to running/abortable state
             input.disabled = true;
-            submitBtn.disabled = true;
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Stop';
+            submitBtn.style.background = '#ef4444'; // red background
+            submitBtn.onclick = stopWebAutomation;
 
             // Reset screenshot
             screenshotImg.style.display = 'none';
@@ -3352,12 +3370,18 @@
                 currentWbSource.close();
             }
 
+            if (currentWbAbortController) {
+                currentWbAbortController.abort();
+            }
+            currentWbAbortController = new AbortController();
+
             const apiHost = window.location.port === '3000' ? '' : 'http://localhost:3000';
             
             fetch(`${apiHost}/api/automation/run`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ command: cmd, headless: !headed, sessionId: currentWbSessionId })
+                body: JSON.stringify({ command: cmd, headless: !headed, sessionId: currentWbSessionId }),
+                signal: currentWbAbortController.signal
             }).then(response => {
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder('utf-8');
@@ -3366,8 +3390,7 @@
                 function read() {
                     reader.read().then(({ done, value }) => {
                         if (done) {
-                            input.disabled = false;
-                            submitBtn.disabled = false;
+                            resetWbInputs();
                             logTerminal('system', '[System] Connection closed.');
                             return;
                         }
@@ -3394,9 +3417,12 @@
                 }
                 read();
             }).catch(err => {
-                input.disabled = false;
-                submitBtn.disabled = false;
-                logTerminal('error', `[Error] Failed to connect: ${err.message}`);
+                resetWbInputs();
+                if (err.name === 'AbortError') {
+                    logTerminal('warning', '[System] Automation terminated by user.');
+                } else {
+                    logTerminal('error', `[Error] Failed to connect: ${err.message}`);
+                }
             });
         }
 
@@ -3524,6 +3550,16 @@
             line.textContent = text;
             terminal.appendChild(line);
             terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function clearWbTerminal() {
+            const terminal = document.getElementById('wb-terminal');
+            terminal.innerHTML = '<div class="terminal-line system">[System] Ready for automation commands.</div>';
+        }
+
+        function refreshViewport() {
+            // Re-render or logs refresh action
+            logTerminal('system', '[System] Requesting viewport refresh...');
         }
     </script>
 </body>
