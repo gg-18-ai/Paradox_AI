@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paradox AI — AI by Anthropic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -29,8 +32,8 @@
             --radius-md: 12px;
             --radius-lg: 16px;
             --radius-xl: 20px;
-            --font: 'Söhne', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            --font-mono: 'Söhne Mono', 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+            --font: 'Plus Jakarta Sans', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
         }
 
         [data-theme="dark"] {
@@ -58,6 +61,17 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        /* ── MICRO-ANIMATIONS ────────────────── */
+        .icon-btn, .sidebar-btn, .new-chat-btn, .msg-act-btn, .artifact-btn, .tool-btn, .send-btn, .chat-item {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .icon-btn:hover, .sidebar-btn:hover, .tool-btn:hover {
+            transform: translateY(-1px);
+        }
+        .icon-btn:active, .sidebar-btn:active, .tool-btn:active {
+            transform: translateY(0) scale(0.96);
         }
 
         body {
@@ -394,7 +408,6 @@
             display: flex;
             flex-direction: column;
             gap: 28px;
-            scroll-behavior: smooth;
         }
 
         .messages::-webkit-scrollbar {
@@ -418,6 +431,13 @@
             flex-direction: row-reverse;
             align-self: flex-end;
             max-width: 680px;
+            margin: 0 0 0 auto;
+        }
+
+        .message.user .msg-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
 
         .msg-avatar {
@@ -469,13 +489,15 @@
         }
 
         .message.user .msg-bubble {
-            background: var(--user-bubble);
-            color: var(--user-text);
-            padding: 11px 16px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+            color: #ffffff;
+            padding: 12px 18px;
             border-radius: var(--radius-xl) var(--radius-xl) 4px var(--radius-xl);
             display: inline-block;
             max-width: 100%;
             white-space: pre-wrap;
+            box-shadow: 0 4px 12px rgba(212, 103, 10, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .msg-bubble p {
@@ -503,12 +525,13 @@
         }
 
         .msg-bubble code {
-            background: var(--bg-tertiary);
-            border: 0.5px solid var(--border);
-            padding: 1px 5px;
-            border-radius: 4px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 2px 6px;
+            border-radius: 6px;
             font-family: var(--font-mono);
             font-size: 13px;
+            color: var(--accent);
         }
 
         .msg-bubble pre {
@@ -649,19 +672,20 @@
 
         .suggestion-card {
             background: var(--bg-secondary);
-            border: 0.5px solid var(--border);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
-            padding: 13px 15px;
+            padding: 16px 18px;
             cursor: pointer;
             text-align: left;
-            transition: background 0.14s, box-shadow 0.14s, border-color 0.14s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: var(--font);
         }
 
         .suggestion-card:hover {
             background: var(--bg-primary);
-            box-shadow: var(--shadow-md);
-            border-color: var(--border-strong);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            border-color: var(--accent);
+            transform: translateY(-2px);
         }
 
         .sug-icon {
@@ -693,16 +717,22 @@
             max-width: 840px;
             margin: 0 auto;
             background: var(--bg-secondary);
-            border: 0.5px solid var(--border-strong);
+            border: 1px solid var(--border-strong);
             border-radius: var(--radius-xl);
             overflow: hidden;
             box-shadow: var(--shadow-md);
-            transition: box-shadow 0.2s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-wrap:hover {
+            border-color: var(--border-strong);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.06);
         }
 
         .input-wrap:focus-within {
-            box-shadow: 0 0 0 2.5px rgba(212, 103, 10, 0.20), var(--shadow-md);
+            box-shadow: 0 0 0 3px rgba(212, 103, 10, 0.20), 0 8px 30px rgba(0,0,0,0.08);
             border-color: var(--accent);
+            background: var(--bg-primary);
         }
 
         .input-toolbar {
@@ -1107,27 +1137,32 @@
 
         /* ── DYNAMIC CODE BOX / ARTIFACT ─────────── */
         .artifact-box {
-            border: 1px solid var(--border-strong);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            margin: 16px 0;
-            background: #18181b;
-            /* Sleek dark theme always for code box */
-            box-shadow: var(--shadow-md);
+            margin: 20px 0;
+            background: #111113;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
             text-align: left;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .artifact-box:hover {
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         [data-theme="dark"] .artifact-box {
-            border-color: rgba(255, 255, 255, 0.12);
-            background: #0c0c0e;
+            border-color: rgba(255, 255, 255, 0.06);
+            background: #08080a;
         }
 
         .artifact-header {
-            padding: 10px 16px;
-            background: #202024;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+            padding: 12px 20px;
+            background: #18181c;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -1270,6 +1305,457 @@
                 width: 100%;
             }
         }
+
+        /* ── CHAT HOVER DIAL ──────────────────────── */
+        .chat-dial {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding: 12px 8px;
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            align-items: flex-end;
+            max-height: 60vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+        
+        [data-theme="dark"] .chat-dial {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .chat-dial::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chat-dial:hover {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-md);
+            padding: 16px 16px;
+        }
+
+        [data-theme="dark"] .chat-dial:hover {
+            background: rgba(38, 38, 34, 0.95);
+            border-color: var(--border-strong);
+        }
+
+        .dial-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            height: 24px;
+        }
+
+        .dial-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            opacity: 0;
+            max-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transform: translateX(8px);
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            pointer-events: none;
+            text-align: right;
+        }
+
+        .chat-dial:hover .dial-label {
+            opacity: 0.7;
+            max-width: 150px;
+            transform: translateX(0);
+        }
+
+        .dial-item:hover .dial-label {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .dial-line {
+            width: 10px;
+            height: 2px;
+            background: var(--text-muted);
+            opacity: 0.4;
+            border-radius: 1px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .dial-item:hover .dial-line {
+            background: var(--accent);
+            opacity: 1;
+            width: 16px;
+        }
+
+        /* Active state styling: highlight line always, but only show label when container is hovered */
+        .chat-dial:hover .dial-item.active .dial-label {
+            opacity: 1;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .dial-item.active .dial-line {
+            background: var(--accent);
+            opacity: 1;
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+            box-shadow: 0 0 6px rgba(212, 103, 10, 0.4);
+        }
+
+        /* ── WEB BROWSE AUTOMATION ────────────────── */
+        .web-browse-workspace {
+            position: absolute;
+            inset: 0;
+            z-index: 150;
+            background: var(--bg-primary);
+            display: none;
+            flex-direction: column;
+            opacity: 0;
+            transform: scale(0.97) translateY(10px);
+            transition: opacity 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .web-browse-workspace.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .web-browse-header {
+            height: 52px;
+            padding: 0 20px;
+            border-bottom: 0.5px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+        }
+
+        .web-browse-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .web-browse-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        .web-browse-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .wb-left-panel {
+            width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 320px;
+        }
+
+        .wb-right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .wb-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .wb-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .wb-input-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wb-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .wb-input {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            font-family: var(--font);
+            font-size: 14px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .wb-input:focus {
+            border-color: var(--accent);
+        }
+
+        .wb-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0 16px;
+            font-family: var(--font);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .wb-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .wb-btn:disabled {
+            background: var(--border-strong);
+            cursor: not-allowed;
+        }
+
+        .wb-toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13.5px;
+            color: var(--text-secondary);
+        }
+
+        .wb-suggestions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .wb-sug-item {
+            background: var(--bg-primary);
+            border: 0.5px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .wb-sug-item:hover {
+            border-color: var(--accent);
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        .wb-terminal {
+            flex: 1;
+            background: #121214;
+            color: #e4e4e7;
+            font-family: var(--font-mono);
+            font-size: 12.5px;
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+            min-height: 200px;
+        }
+
+        [data-theme="dark"] .wb-terminal {
+            background: #08080a;
+        }
+
+        .terminal-line {
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .terminal-line.system { color: #818cf8; }
+        .terminal-line.user { color: #f59e0b; }
+        .terminal-line.info { color: #34d399; }
+        .terminal-line.warning { color: #fb7185; }
+        .terminal-line.error { color: #ef4444; font-weight: 600; }
+
+        .wb-viewport {
+            height: 340px;
+            background: #1e1e1e;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .viewport-header {
+            height: 32px;
+            background: #2d2d2d;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            gap: 6px;
+        }
+
+        .vp-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+        }
+        .vp-dot:nth-child(2) { background: #f59e0b; }
+        .vp-dot:nth-child(3) { background: #10b981; }
+
+        .vp-address {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            color: #d4d4d8;
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: 4px;
+            margin-left: 10px;
+            max-width: 400px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .viewport-body {
+            flex: 1;
+            background: #18181b;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .viewport-screenshot {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+            transition: opacity 0.3s;
+        }
+
+        .viewport-placeholder {
+            color: #71717a;
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wb-trigger-btn {
+            background: var(--accent-bg);
+            color: var(--accent);
+            border: 1px solid rgba(212, 103, 10, 0.2);
+            border-radius: var(--radius-md);
+            padding: 6px 12px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .wb-trigger-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .sidebar-wb-btn {
+            margin: 0 14px 10px;
+            padding: 8px 14px;
+            background: var(--bg-primary);
+            border: 0.5px solid var(--border-strong);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .sidebar-wb-btn:hover {
+            background: var(--accent-bg);
+            color: var(--accent);
+            border-color: rgba(212, 103, 10, 0.3);
+        }
     </style>
 </head>
 
@@ -1305,6 +1791,15 @@
             New conversation
         </button>
 
+        <button class="sidebar-wb-btn" onclick="enterWebBrowseMode()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+            Web Browse Automation
+        </button>
+
         <div class="sidebar-section-label">Recents</div>
         <div class="chat-history" id="chat-history">
             <!-- Dynamic chats populated by JavaScript -->
@@ -1333,6 +1828,107 @@
 
     <!-- MAIN -->
     <main class="main" style="position:relative;">
+        <!-- CHAT DIAL NAVIGATOR -->
+        <div class="chat-dial" id="chat-dial"></div>
+
+        <!-- WEB BROWSE WORKSPACE -->
+        <div class="web-browse-workspace" id="web-browse-workspace">
+            <header class="web-browse-header">
+                <div class="web-browse-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                    <span>Web Browse Automation Mode</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:16px;">
+                    <div class="web-browse-status">
+                        <div class="status-dot"></div>
+                        <span>Automation Engine Active</span>
+                    </div>
+                    <button class="wb-trigger-btn" onclick="exitWebBrowseMode()" style="background:var(--bg-tertiary);color:var(--text-primary);border-color:var(--border)">
+                        ← Back to Chat
+                    </button>
+                </div>
+            </header>
+            <div class="web-browse-body">
+                <!-- Left Control Panel -->
+                <div class="wb-left-panel">
+                    <div class="wb-card">
+                        <div class="wb-card-title">🚀 Run Automation</div>
+                        <div class="wb-input-wrap">
+                            <div class="wb-input-row">
+                                <input type="text" class="wb-input" id="wb-command-input" placeholder="e.g. open flipkart or paste form link..." onkeydown="handleWbKey(event)">
+                                <button class="wb-btn" id="wb-submit-btn" onclick="runWebAutomation()">Go</button>
+                            </div>
+                            <div class="wb-toggle-row" style="margin-top:4px">
+                                <span>Headed Mode (Show physical browser)</span>
+                                <button class="toggle on" id="t-wb-headed" onclick="toggleFeature('t-wb-headed')"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wb-card">
+                        <div class="wb-card-title">💡 Quick Automated Tasks</div>
+                        <div class="wb-suggestions">
+                            <button class="wb-sug-item" onclick="useWbSuggestion('open flipkart')">
+                                🛍️ Open Flipkart in a New Tab
+                            </button>
+                            <button class="wb-sug-item" onclick="useWbSuggestion('https://docs.google.com/forms/d/e/1FAIpQLSf4597N3-o8N8dM4-c8c7gqJ0000000000000000000000000/viewform')">
+                                📝 Fill Google Form Link (e.g. Test Form)
+                            </button>
+                            <button class="wb-sug-item" onclick="useWbSuggestion('what is antigravity ai')">
+                                🔍 Automate Google Search & View Page
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="wb-card" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                        <div class="wb-card-title">🖥️ Web Viewport Status</div>
+                        <div class="wb-viewport">
+                            <div class="viewport-header">
+                                <div class="vp-dot"></div>
+                                <div class="vp-dot"></div>
+                                <div class="vp-dot"></div>
+                                <div class="vp-address" id="vp-address">No URL loaded</div>
+                            </div>
+                            <div class="viewport-body" id="vp-body">
+                                <div class="viewport-placeholder" id="vp-placeholder">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                        <line x1="9" y1="3" x2="9" y2="21"/>
+                                    </svg>
+                                    <span>Browser screenshot will appear here</span>
+                                </div>
+                                <img src="" class="viewport-screenshot" id="vp-screenshot">
+                                <div class="viewport-overlay" id="vp-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10; flex-direction:column; align-items:center; justify-content:center; padding:20px; color:#fff; text-align:center;">
+                                    <div style="font-size:24px; margin-bottom:8px;">⏸️ Automation Paused</div>
+                                    <div id="vp-overlay-reason" style="font-size:14px; margin-bottom:12px; color:#cbd5e1; font-weight:500;">Reason: Authentication Required</div>
+                                    <div id="vp-overlay-action" style="font-size:13px; margin-bottom:18px; color:#94a3b8;">Required action: Please complete sign in</div>
+                                    <div id="vp-overlay-input-container" style="display:none; margin-bottom:16px; gap:8px; width:100%; max-width:320px; justify-content:center;">
+                                        <input type="text" id="vp-overlay-input" placeholder="Enter OTP/Value..." style="flex:1; background:#27272a; border:1px solid #52525b; border-radius:6px; padding:8px 12px; color:#fff; outline:none; font-family:var(--font); font-size:13px;">
+                                        <button onclick="submitResumeAction()" style="background:var(--accent); border:none; border-radius:6px; color:#fff; font-weight:600; padding:8px 16px; cursor:pointer; font-size:13px; font-family:var(--font);">Submit</button>
+                                    </div>
+                                    <button onclick="submitResumeContinue()" style="background:none; border:1px solid #52525b; border-radius:6px; color:#e4e4e7; font-weight:600; padding:8px 16px; cursor:pointer; font-size:13px; font-family:var(--font);">I've solved it, Continue</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Live Console Panel -->
+                <div class="wb-right-panel">
+                    <div class="wb-card" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                        <div class="wb-card-title">📟 Live Execution Terminal</div>
+                        <div class="wb-terminal" id="wb-terminal">
+                            <div class="terminal-line system">[System] Ready for automation commands.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- TOPBAR -->
         <header class="topbar">
             <div style="display:flex;align-items:center;gap:8px;">
@@ -1349,6 +1945,14 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="6 9 12 15 18 9" />
                     </svg>
+                </button>
+                <button class="wb-trigger-btn" onclick="enterWebBrowseMode()" title="Open Web Browse Automation Workspace">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                    Web Browse
                 </button>
             </div>
             <div class="topbar-actions">
@@ -1449,7 +2053,7 @@
         </div>
 
         <!-- SCROLL TO BOTTOM -->
-        <button class="scroll-btn" id="scroll-btn" onclick="scrollToBottom()">
+        <button class="scroll-btn" id="scroll-btn" onclick="scrollToBottom(true)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9" />
             </svg>
@@ -1634,6 +2238,7 @@
         let activeTools = { search: false, analysis: false };
         let threads = [];
         let activeThreadId = null;
+        let currentWbSessionId = null;
 
         const messagesEl = document.getElementById('messages');
         const inputEl = document.getElementById('chat-input');
@@ -1759,6 +2364,7 @@
 
             scrollToBottom();
             renderHistory();
+            updateChatDial();
         }
 
         function saveCurrentThread() {
@@ -2027,6 +2633,7 @@
             wrap.appendChild(content);
             messagesEl.appendChild(wrap);
             scrollToBottom();
+            updateChatDial();
         }
 
         function renderArtifactBox(prefix, index, lang, code) {
@@ -2056,6 +2663,21 @@
                 </svg>
             </button>
             ` : ''}
+            ${lang === 'html' ? `
+            <button class="artifact-btn" title="Run HTML Code (New Window)" onclick="openArtifactPreviewNewWindow('${id}')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+            </button>
+            ` : ''}
+            <button class="artifact-btn" title="Open in VS Code / Default Editor" onclick="openArtifactInVSCode('${id}')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9"></path>
+                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                </svg>
+            </button>
             <button class="artifact-btn" title="Copy Code" onclick="copyArtifactCode('${id}')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -2245,6 +2867,68 @@
             });
         }
 
+        function openArtifactPreviewNewWindow(id) {
+            const box = document.getElementById(id);
+            if (!box) return;
+            const codeView = box.querySelector('.artifact-code-view');
+            const rawBase64 = codeView.getAttribute('data-raw');
+            const rawCode = decodeURIComponent(escape(atob(rawBase64)));
+
+            try {
+                const newWindow = window.open();
+                if (newWindow) {
+                    newWindow.document.open();
+                    newWindow.document.write(rawCode);
+                    newWindow.document.close();
+                } else {
+                    showToast('Popup blocker prevented opening preview window. Please allow popups.');
+                }
+            } catch (e) {
+                console.error("Failed to write to window directly, trying blob fallback:", e);
+                try {
+                    const blob = new Blob([rawCode], { type: 'text/html' });
+                    const blobUrl = URL.createObjectURL(blob);
+                    window.open(blobUrl, '_blank');
+                } catch (err) {
+                    showToast('Failed to open preview window');
+                }
+            }
+        }
+
+        async function openArtifactInVSCode(id) {
+            const box = document.getElementById(id);
+            if (!box) return;
+            const codeView = box.querySelector('.artifact-code-view');
+            const rawBase64 = codeView.getAttribute('data-raw');
+            const rawCode = decodeURIComponent(escape(atob(rawBase64)));
+            const lang = box.querySelector('.artifact-title span').textContent.toLowerCase();
+
+            try {
+                showToast('Opening in editor...');
+                const apiHost = window.location.port === '3000' ? '' : 'http://localhost:3000';
+                const response = await fetch(`${apiHost}/api/open-editor`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        code: rawCode,
+                        language: lang
+                    })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    showToast('Opened successfully!');
+                } else {
+                    showToast(result.error || 'Failed to open in editor');
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('Error communicating with backend');
+            }
+        }
+
         let typingEl = null;
         function showTyping() {
             isTyping = true;
@@ -2295,6 +2979,7 @@
             for (let i = allMsgEls.length - 1; i >= idx; i--) {
                 allMsgEls[i].remove();
             }
+            updateChatDial();
 
             // Truncate state messages array
             messages = messages.slice(0, idx);
@@ -2339,16 +3024,22 @@
             sendBtn.disabled = true;
             showToast('New conversation started');
             renderHistory();
+            updateChatDial();
         }
 
-        function scrollToBottom() {
-            messagesEl.scrollTop = messagesEl.scrollHeight;
+        function scrollToBottom(smooth = false) {
+            if (smooth) {
+                messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+            } else {
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            }
         }
 
         function handleScroll() {
             const btn = document.getElementById('scroll-btn');
             const atBottom = messagesEl.scrollTop + messagesEl.clientHeight >= messagesEl.scrollHeight - 50;
             btn.classList.toggle('visible', !atBottom && messages.length > 0);
+            spyDialScroll();
         }
 
         function toggleTool(tool) {
@@ -2425,6 +3116,414 @@
             t.classList.add('show');
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+        }
+
+        // --- Chat Hover Dial (DeepSeek style) ---
+        function updateChatDial() {
+            const dial = document.getElementById('chat-dial');
+            if (!dial) return;
+
+            // Find all user message elements in the DOM
+            const userMsgWrappers = Array.from(messagesEl.querySelectorAll('.message.user'));
+            
+            if (userMsgWrappers.length === 0) {
+                dial.innerHTML = '';
+                dial.style.display = 'none';
+                return;
+            }
+
+            dial.innerHTML = '';
+            dial.style.display = 'flex';
+
+            userMsgWrappers.forEach((wrapper, index) => {
+                // Get user message text
+                const bubble = wrapper.querySelector('.msg-bubble');
+                const text = bubble ? bubble.textContent : 'Prompt ' + (index + 1);
+                
+                // Ensure wrapper has a unique ID for targeting
+                if (!wrapper.id) {
+                    wrapper.id = 'user-msg-' + index;
+                }
+
+                const item = document.createElement('div');
+                item.className = 'dial-item';
+                
+                // Clean the text to show neatly on a single line in tooltip and dial label
+                const cleanText = text.trim().replace(/\s+/g, ' ');
+                item.title = cleanText; // Tooltip with full text
+                item.setAttribute('data-target-id', wrapper.id);
+
+                const label = document.createElement('span');
+                label.className = 'dial-label';
+                label.textContent = cleanText;
+
+                const line = document.createElement('div');
+                line.className = 'dial-line';
+
+                item.appendChild(label);
+                item.appendChild(line);
+
+                item.onclick = () => {
+                    const target = document.getElementById(wrapper.id);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                };
+
+                dial.appendChild(item);
+            });
+
+            // Sync scroll state immediately
+            spyDialScroll();
+        }
+
+        function spyDialScroll() {
+            const dial = document.getElementById('chat-dial');
+            if (!dial || dial.style.display === 'none') return;
+
+            const items = dial.querySelectorAll('.dial-item');
+            if (items.length === 0) return;
+
+            const containerRect = messagesEl.getBoundingClientRect();
+            const containerCenter = containerRect.top + containerRect.height / 2;
+
+            let closestId = null;
+            let minDistance = Infinity;
+
+            items.forEach(item => {
+                const targetId = item.getAttribute('data-target-id');
+                const target = document.getElementById(targetId);
+                if (target) {
+                    const rect = target.getBoundingClientRect();
+                    // Distance of target center to message container viewport center
+                    const targetCenter = rect.top + rect.height / 2;
+                    const distance = Math.abs(targetCenter - containerCenter);
+                    
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestId = targetId;
+                    }
+                }
+            });
+
+            items.forEach(item => {
+                const targetId = item.getAttribute('data-target-id');
+                if (targetId === closestId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // --- Web Browse Automation Logic ---
+        function enterWebBrowseMode() {
+            const ws = document.getElementById('web-browse-workspace');
+            ws.style.display = 'flex';
+            
+            // Force a reflow for transition to work
+            ws.offsetHeight;
+            
+            ws.classList.add('active');
+            showToast('Entered Web Browse Automation Mode');
+        }
+
+        function exitWebBrowseMode() {
+            const ws = document.getElementById('web-browse-workspace');
+            ws.classList.remove('active');
+            
+            // Wait for transition before hiding
+            setTimeout(() => {
+                ws.style.display = 'none';
+            }, 350);
+        }
+
+        function handleWbKey(e) {
+            if (e.key === 'Enter') {
+                runWebAutomation();
+            }
+        }
+
+        function useWbSuggestion(cmd) {
+            const input = document.getElementById('wb-command-input');
+            input.value = cmd;
+            input.focus();
+        }
+
+        let currentWbSource = null;
+        function runWebAutomation() {
+            const input = document.getElementById('wb-command-input');
+            const cmd = input.value.trim();
+            if (!cmd) return;
+
+            // Handle client-side "open <website>" directly in Microsoft Edge via backend
+            const isSimpleOpen = cmd.toLowerCase().startsWith('open ') && 
+                                 !cmd.toLowerCase().includes(' and ') && 
+                                 !cmd.toLowerCase().includes('search') && 
+                                 !cmd.toLowerCase().includes('fill') && 
+                                 !cmd.toLowerCase().includes('type');
+                                 
+            if (isSimpleOpen) {
+                const target = cmd.substring(5).trim();
+                let targetUrl = target;
+                if (!/^https?:\/\//i.test(targetUrl)) {
+                    if (targetUrl.includes('.') && !targetUrl.includes(' ')) {
+                        targetUrl = 'https://' + targetUrl;
+                    } else if (targetUrl.toLowerCase() === 'flipkart') {
+                        targetUrl = 'https://www.flipkart.com';
+                    } else if (targetUrl.toLowerCase() === 'amazon') {
+                        targetUrl = 'https://www.amazon.in';
+                    } else if (targetUrl.toLowerCase() === 'google') {
+                        targetUrl = 'https://www.google.com';
+                    } else {
+                        targetUrl = 'https://www.google.com/search?q=' + encodeURIComponent(target);
+                    }
+                }
+                
+                const apiHost = window.location.port === '3000' ? '' : 'http://localhost:3000';
+                fetch(`${apiHost}/api/automation/open-external`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: targetUrl })
+                }).catch(err => console.error("Failed to open Edge:", err));
+                
+                document.getElementById('vp-address').textContent = targetUrl;
+                logTerminal('system', `[Client] Launching Microsoft Edge for URL: ${targetUrl}`);
+                input.value = '';
+                return;
+            }
+
+            const terminal = document.getElementById('wb-terminal');
+            const submitBtn = document.getElementById('wb-submit-btn');
+            const addressBar = document.getElementById('vp-address');
+            const screenshotImg = document.getElementById('vp-screenshot');
+            const placeholder = document.getElementById('vp-placeholder');
+            const headed = document.getElementById('t-wb-headed').classList.contains('on');
+
+            // Clear terminal
+            terminal.innerHTML = '';
+            logTerminal('user', `> Running automation for: ${cmd}`);
+            
+            // Disable input and btn
+            input.disabled = true;
+            submitBtn.disabled = true;
+
+            // Reset screenshot
+            screenshotImg.style.display = 'none';
+            screenshotImg.src = '';
+            placeholder.style.display = 'flex';
+            
+            // Hide pause overlay if active
+            const overlay = document.getElementById('vp-overlay');
+            if (overlay) overlay.style.display = 'none';
+
+            currentWbSessionId = 'sess_' + Date.now();
+
+            // Resolve url for address bar display
+            let displayUrl = cmd.trim();
+            if (displayUrl.toLowerCase().startsWith('open ')) {
+                displayUrl = displayUrl.substring(5).trim();
+            }
+            const andIdx = displayUrl.toLowerCase().indexOf(' and ');
+            if (andIdx !== -1) {
+                displayUrl = displayUrl.substring(0, andIdx).trim();
+            }
+            const searchIdx = displayUrl.toLowerCase().indexOf(' search ');
+            if (searchIdx !== -1) {
+                displayUrl = displayUrl.substring(0, searchIdx).trim();
+            }
+            if (!/^https?:\/\//i.test(displayUrl)) {
+                if (displayUrl.includes('.') && !displayUrl.includes(' ')) {
+                    displayUrl = 'https://' + displayUrl;
+                } else if (displayUrl.toLowerCase() === 'flipkart') {
+                    displayUrl = 'https://www.flipkart.com';
+                } else if (displayUrl.toLowerCase() === 'amazon') {
+                    displayUrl = 'https://www.amazon.in';
+                } else if (displayUrl.toLowerCase() === 'google') {
+                    displayUrl = 'https://www.google.com';
+                } else {
+                    displayUrl = `https://www.google.com/search?q=${encodeURIComponent(displayUrl)}`;
+                }
+            }
+            addressBar.textContent = displayUrl;
+
+            // Close old source if any
+            if (currentWbSource) {
+                currentWbSource.close();
+            }
+
+            const apiHost = window.location.port === '3000' ? '' : 'http://localhost:3000';
+            
+            fetch(`${apiHost}/api/automation/run`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ command: cmd, headless: !headed, sessionId: currentWbSessionId })
+            }).then(response => {
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+                let buffer = '';
+
+                function read() {
+                    reader.read().then(({ done, value }) => {
+                        if (done) {
+                            input.disabled = false;
+                            submitBtn.disabled = false;
+                            logTerminal('system', '[System] Connection closed.');
+                            return;
+                        }
+
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        buffer = lines.pop();
+
+                        for (const line of lines) {
+                            const cleanLine = line.trim();
+                            if (!cleanLine) continue;
+
+                            if (cleanLine.startsWith('data: ')) {
+                                try {
+                                    const parsed = JSON.parse(cleanLine.substring(6));
+                                    handleWbEvent(parsed.event, parsed.data);
+                                } catch (e) {
+                                    console.error('Failed to parse SSE event', e);
+                                }
+                            }
+                        }
+                        read();
+                    });
+                }
+                read();
+            }).catch(err => {
+                input.disabled = false;
+                submitBtn.disabled = false;
+                logTerminal('error', `[Error] Failed to connect: ${err.message}`);
+            });
+        }
+
+        function handleWbEvent(event, data) {
+            const screenshotImg = document.getElementById('vp-screenshot');
+            const placeholder = document.getElementById('vp-placeholder');
+            const overlay = document.getElementById('vp-overlay');
+
+            if (event === 'log') {
+                let type = 'info';
+                if (data.includes('[Error]')) type = 'error';
+                else if (data.includes('[Warning]')) type = 'warning';
+                else if (data.includes('Launching') || data.includes('Closing')) type = 'system';
+                logTerminal(type, data);
+            } else if (event === 'screenshot') {
+                placeholder.style.display = 'none';
+                screenshotImg.src = `data:image/jpeg;base64,${data}`;
+                screenshotImg.style.display = 'block';
+            } else if (event === 'error') {
+                logTerminal('error', `[Error] ${data}`);
+                showToast('Automation encountered an error');
+            } else if (event === 'complete') {
+                logTerminal('info', '[Success] Automation finished successfully!');
+                showToast('Automation completed successfully');
+                if (overlay) overlay.style.display = 'none';
+            } else if (event === 'pause') {
+                // Pause event (Phase 6 requirement 3)
+                if (overlay) {
+                    overlay.style.display = 'flex';
+                    document.getElementById('vp-overlay-reason').textContent = `Reason: ${data.description}`;
+                    
+                    const actionText = data.type === 'OTP' ? 'Verification OTP/Code is required. Enter it below:' :
+                                       data.type === 'CAPTCHA' ? 'A CAPTCHA challenge is active. Please solve it in the browser or continue.' :
+                                       data.type === '2FA' ? 'Two-Factor (2FA) verification is active. Approve it or enter code:' :
+                                       data.type === 'Login' ? 'Authentication / Login is required. Please log in or supply credentials.' :
+                                       'Identity verification is required to proceed.';
+                    document.getElementById('vp-overlay-action').textContent = actionText;
+
+                    const inputContainer = document.getElementById('vp-overlay-input-container');
+                    if (data.type === 'OTP' || data.type === '2FA') {
+                        inputContainer.style.display = 'flex';
+                    } else {
+                        inputContainer.style.display = 'none';
+                    }
+
+                    if (data.screenshot) {
+                        placeholder.style.display = 'none';
+                        screenshotImg.src = `data:image/jpeg;base64,${data.screenshot}`;
+                        screenshotImg.style.display = 'block';
+                    }
+                }
+            } else if (event === 'resume') {
+                if (overlay) overlay.style.display = 'none';
+            }
+        }
+
+        async function submitResumeAction() {
+            const valInput = document.getElementById('vp-overlay-input');
+            const val = valInput.value.trim();
+            if (!val || !currentWbSessionId) return;
+
+            const apiHost = window.location.port === '3000' ? '' : 'http://localhost:3000';
+            logTerminal('system', `[Client] Submitting human input value: "${val}"`);
+            
+            try {
+                const response = await fetch(`${apiHost}/api/automation/resume-action`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId: currentWbSessionId,
+                        action: {
+                            type: 'type',
+                            selector: 'input',
+                            value: val
+                        }
+                    })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    valInput.value = '';
+                    const overlay = document.getElementById('vp-overlay');
+                    if (overlay) overlay.style.display = 'none';
+                    showToast('Input submitted successfully');
+                } else {
+                    showToast('Failed to submit input: ' + result.error);
+                }
+            } catch (err) {
+                console.error("Failed to resume action:", err);
+                showToast('Failed to connect to backend');
+            }
+        }
+
+        async function submitResumeContinue() {
+            if (!currentWbSessionId) return;
+
+            const apiHost = window.location.port === '3000' ? '' : 'http://localhost:3000';
+            logTerminal('system', '[Client] Requesting manual resume...');
+            
+            try {
+                const response = await fetch(`${apiHost}/api/automation/resume-action`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId: currentWbSessionId
+                    })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    const overlay = document.getElementById('vp-overlay');
+                    if (overlay) overlay.style.display = 'none';
+                    showToast('Automation resuming');
+                } else {
+                    showToast('Failed to resume: ' + result.error);
+                }
+            } catch (err) {
+                console.error("Failed to resume:", err);
+                showToast('Failed to connect to backend');
+            }
+        }
+
+        function logTerminal(type, text) {
+            const terminal = document.getElementById('wb-terminal');
+            const line = document.createElement('div');
+            line.className = `terminal-line ${type}`;
+            line.textContent = text;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
         }
     </script>
 </body>
